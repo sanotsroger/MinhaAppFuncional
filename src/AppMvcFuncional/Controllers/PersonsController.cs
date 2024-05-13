@@ -33,7 +33,7 @@ namespace AppMvcFuncional.Controllers
             return View(person);
         }
 
-        [Route("novb")]
+        [Route("novo")]
         public IActionResult Create()
         {
             return View();
