@@ -5,6 +5,7 @@ using AppMvcFuncional.Models;
 
 namespace AppMvcFuncional.Controllers
 {
+    [Route("meus-clientes")]
     public class PersonsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,13 +20,9 @@ namespace AppMvcFuncional.Controllers
             return View(await _context.Person.ToListAsync());
         }
 
-        public async Task<IActionResult> Details(int? id)
+        [Route("detalhes/{id:int}")]
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var person = await _context.Person
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
@@ -36,12 +33,13 @@ namespace AppMvcFuncional.Controllers
             return View(person);
         }
 
+        [Route("novb")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("novo")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Age")] Person person)
         {
@@ -54,13 +52,9 @@ namespace AppMvcFuncional.Controllers
             return View(person);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        [Route("editar/{id:int}")]
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var person = await _context.Person.FindAsync(id);
             if (person == null)
             {
@@ -69,7 +63,7 @@ namespace AppMvcFuncional.Controllers
             return View(person);
         }
 
-        [HttpPost]
+        [HttpPost("editar/{id:int}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Age")] Person person)
         {
@@ -101,13 +95,9 @@ namespace AppMvcFuncional.Controllers
             return View(person);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        [Route("excluir/{id:int}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var person = await _context.Person
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (person == null)
@@ -118,7 +108,7 @@ namespace AppMvcFuncional.Controllers
             return View(person);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost("excluir/{id:int}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
